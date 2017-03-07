@@ -7,8 +7,7 @@ module.exports = React.createClass({
 	displayName: file1,
 
 	getInitialState() {
-		return {
-			
+		return {	
 			name: '',
 			email: '',
 			people: []
