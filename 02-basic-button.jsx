@@ -1,4 +1,8 @@
 import React from 'react';
+
+// const content = document.createElement('div');
+// document.body.appendChild(content);
+
 var file = __filename.split('/').slice(-1)[0];
 var file1 = file.split('.').slice(0)[0];
 // console.log(file1);
@@ -19,9 +23,9 @@ module.exports = React.createClass({
 	},
 
 	clickHandler(e) {
-		var btn = e.target.value + 1;
-		console.log(e);
-		console.log(`The user clicked ${btn}`);
+		var btn = e.target.value;
+		var num = parseInt(btn);
+		console.log(`The user clicked ${num + 1}`);
 	},
 
 	render() {

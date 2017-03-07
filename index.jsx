@@ -3,10 +3,12 @@ import { render } from 'react-dom';
 
 import One from './01-basic-button.jsx';
 import Two from './02-basic-button.jsx';
+import Three from './03-basic-input.jsx';
+import Four from './04-basic-input.jsx';
 
 
 const routes = [
-  One, Two
+  One, Two, Three, Four
 ];
 
 const location = window.location;
