@@ -16,7 +16,7 @@ import test from './test.jsx';
 
 
 const routes = [
- Zero, One, Two, Three, Four, Five, Six, Seven, Eight, test
+ One, Two, Three, Four, Five, Six, Seven, Eight, Zero, test
 ];
 
 const location = window.location;

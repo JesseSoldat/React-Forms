@@ -35,35 +35,53 @@ module.exports = React.createClass({
 		focusInput.focus();
 	},
 
-	onInputChange({ name, value, error, ref }) {
-		
+	onInputChange({ name, value, error, ref }) {		
 		if(ref !== undefined){
 			// console.log(ref);
 			focusInput = ref
+			//points to the NAME INPUT
 		}
 		const fieldErrors = this.state.fieldErrors;
 
 		fieldErrors[name] = error;
+		//console.log(fieldErrors.name); //starts as undefined -> false -> Name Required
+		//console.log(fieldErrors.email); //starts as undefined -> Invalid Email
 
-		// console.log(name, value, error);
 		if(name === 'name'){
 			this.setState({ name: value, fieldErrors});
 		}
 		if(name === 'email'){
 			this.setState({ email: value, fieldErrors });
 		};
-
 	},
 
 	validate() {
 		const fieldErrors = this.state.fieldErrors;
-		const errMessages = Object.keys(fieldErrors).filter( (k) => fieldErrors[k]);
-		// console.log(errMessages);
+		//console.log('fieldErrors ', fieldErrors); //Object {name: false} => Object {name: "Name Required"}
+		const errMessages = Object.keys(fieldErrors).filter( (k) => {
+			//console.log(fieldErrors[k]); //VALUE of fieldErrors = false || 'Name Required' 
+			//(if false errMessages = [] do not return anything)  (if TRUTHY 'Name Required' return ["name"])
+			return fieldErrors[k]; 
+		});
+		//["name", "email"] as errors occur the new KEYS name and email appear on fieldErrors: {}
+		//console.log(errMessages);
+		//----------------------------------------------
+		const array = [1,0, false, undefined, 'hello'];
+		let arrayFilter= array.filter( (item) => !!item);  
+		//filter removes all falsey items;
+		//console.log(arrayFilter); //[1, "hello"]
+		let arrayFilterTruthy= array.filter( (item) => !item);  
+		//console.log(arrayFilterTruthy); //[0, false, undefined]
+		let myItem = 1;
+		let myItem1 = 0;
+		//console.log(!!myItem);//true
+		//console.log(!!myItem1);//false
+
+		//----------------------------------------------
 
 		if(!this.state.name) return true;
 		if(!this.state.email) return true;
 		if(errMessages.length) return true;
-
 
 		return false;
 	},

@@ -101,7 +101,7 @@ module.exports = React.createClass({
 
 	getInitialState() {
 		return {
-			count: 0,
+			counter: 0,
 			blueHover: false,
 			greenHover: false,
 			purpleHover: false
@@ -140,25 +140,39 @@ module.exports = React.createClass({
 				return purple;
 			default:
 				return;
-		}
-		
+		}	
+	},
+
+	onIncrement(num) {
+		this.setState({
+			counter: this.state.counter + num
+		})
 	},
 
 	render() {
 		return (
 		<div style={styles.container}>
-			<h1 style={styles.count}>Count: </h1>
+			<h1 style={styles.count}>Count: {this.state.counter} </h1>
 			<button name="blue" onMouseEnter={this.toggleHover} 
 				onMouseLeave={this.toggleHover}
-				style={this.setStyles('blue')}>Add 1 </button>
+				style={this.setStyles('blue')}
+				onClick={() => this.onIncrement(1)}>
+					Add 1
+			</button>
+
 			<button name="green" onMouseEnter={this.toggleHover} 
 				style={this.setStyles('green')}
 				onMouseLeave={this.toggleHover}
-				>Add 5</button>
+				onClick={() => this.onIncrement(5)}>
+					Add 5
+			</button>
+
 			<button name="purple" onMouseEnter={this.toggleHover} 
 				style={this.setStyles('purple')}
 				onMouseLeave={this.toggleHover}
-				>Add 10</button>
+				onClick={() => this.onIncrement(10)}>
+				Add 10
+			</button>
 		</div>
 		);
 	}
