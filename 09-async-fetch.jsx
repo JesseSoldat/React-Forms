@@ -20,8 +20,8 @@ module.exports = React.createClass({
 
 	},
 
-	onInputChange() {
-
+	onInputChange({name, value, err}) {
+		console.log(name, value, err);
 	},
 
 	validate() {

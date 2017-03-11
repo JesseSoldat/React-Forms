@@ -24,7 +24,11 @@ module.exports = React.createClass({
 	},
 
 	componentWillReceiveProps(nextProps) {
-		
+		console.log('componentWillReceiveProps', nextProps);		
+		this.setState({
+			department: nextProps.department,
+			course: nextProps.course,
+		});
 	},
 
 	onSelectDepartment(e) {
@@ -32,13 +36,17 @@ module.exports = React.createClass({
 		const course = null;
 		this.setState({department, course});
 
+		this.props.onChange({name: 'department', value: department});
+		this.props.onChange({name: 'course', value: course});
 
 		if(department) this.fetch(department);
 
 	},
 
 	onSelectCourse(e) {
-
+		const course = e.target.value;
+		this.setState({ course });
+		this.props.onChange({ name: 'course', value: course });
 	},
 
 	fetch(department) {
@@ -74,7 +82,7 @@ module.exports = React.createClass({
 
 		return (
 		<select onChange={this.onSelectCourse} 
-						value={this.state.coure || ''} >
+						value={this.state.course || ''} >
 			{[
 				<option value='' key='course-none'>
 					Which course?
@@ -90,7 +98,7 @@ module.exports = React.createClass({
 		);
 
 	},
-	
+
 	render() {
 		return (
 		<div>
