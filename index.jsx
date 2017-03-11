@@ -9,6 +9,7 @@ import Five from './05-state-input.jsx';
 import Six from './06-state-input-multi.jsx';
 import Seven from './07-basic-validation.jsx';
 import Eight from './08-field-component-form.jsx';
+import Nine from './09-async-fetch.jsx';
 
 import Zero from './00-btn-counter.jsx';
 import test from './test.jsx';
@@ -16,13 +17,13 @@ import test from './test.jsx';
 
 
 const routes = [
- One, Two, Three, Four, Five, Six, Seven, Eight, Zero, test
+ One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Zero, test
 ];
 
 const location = window.location;
-console.log(location);
-console.log('location.href ', location.href);
-console.log('location.hash ', location.hash);
+// console.log(location);
+// console.log('location.href ', location.href);
+// console.log('location.hash ', location.hash);
 
 
 window.addEventListener('hashchange', location.reload.bind(location));
