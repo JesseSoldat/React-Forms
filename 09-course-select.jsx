@@ -24,7 +24,7 @@ module.exports = React.createClass({
 	},
 
 	componentWillReceiveProps(nextProps) {
-		console.log('componentWillReceiveProps', nextProps);		
+		// console.log('componentWillReceiveProps', nextProps);		
 		this.setState({
 			department: nextProps.department,
 			course: nextProps.course,
@@ -103,7 +103,7 @@ module.exports = React.createClass({
 		return (
 		<div>
 			{this.renderDepartmentSelect()}
-			<br />
+			<br /><br />
 			{this.renderCourseSelect()}
 		</div>
 		);

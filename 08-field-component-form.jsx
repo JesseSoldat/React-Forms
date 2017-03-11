@@ -83,7 +83,7 @@ module.exports = React.createClass({
 		if(!this.state.email) return true;
 		if(errMessages.length) return true;
 
-		return false;
+		return false; 
 	},
 
 	render() {
