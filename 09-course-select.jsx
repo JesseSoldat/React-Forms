@@ -4,7 +4,7 @@ import Electives from './api/electives.json';
 
 const Courses = {
 	core: Core,
-	electies: Electives
+	electives: Electives
 };
 
 module.exports = React.createClass({
@@ -16,9 +16,9 @@ module.exports = React.createClass({
 
 	getInitialState() {
 		return {
-			department: 'test',
+			department: null,
 			course: null,
-			courses: Electives,
+			courses: [],
 			_loading: false
 		};
 	},
@@ -28,11 +28,42 @@ module.exports = React.createClass({
 	},
 
 	onSelectDepartment(e) {
+		const department = e.target.value;
+		const course = null;
+		this.setState({department, course});
+
+
+		if(department) this.fetch(department);
 
 	},
 
 	onSelectCourse(e) {
 
+	},
+
+	fetch(department) {
+		this.setState({_loading: true, courses: [] });
+
+		apiClient(department).then( (courses) => {
+			this.setState( {_loading: false, courses })
+		});
+	},
+
+	renderDepartmentSelect() {
+		return (
+			<select onChange={this.onSelectDepartment}
+							value={this.state.department || ''}>
+				<option value=''>
+					Which department?
+				</option>
+				<option value='core'>
+					NodeSchool: Core
+				</option>
+				<option value="electives">
+					NodeSchool: Electives
+				</option>
+			</select>
+		);
 	},
 
 	renderCourseSelect() {
@@ -59,15 +90,22 @@ module.exports = React.createClass({
 		);
 
 	},
-
+	
 	render() {
 		return (
 		<div>
-			course
+			{this.renderDepartmentSelect()}
 			<br />
 			{this.renderCourseSelect()}
 		</div>
 		);
 	}
-
 });	
+
+function apiClient(department) {
+	return {
+		then: function(cb) {
+			setTimeout( () => {cb(Courses[department]); }, 1000)
+		},
+	};
+}
