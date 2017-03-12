@@ -11,6 +11,7 @@ import Seven from './07-basic-validation.jsx';
 import Eight from './08-field-component-form.jsx';
 import Nine from './09-async-fetch.jsx';
 import Ten from './10-remote-persist.jsx';
+import Eleven from './11-redux-app.jsx';
 
 import Zero from './00-btn-counter.jsx';
 import test from './test.jsx';
@@ -18,7 +19,7 @@ import test from './test.jsx';
 
 
 const routes = [
- One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Zero, test
+ One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Eleven, Zero, test
 ];
 
 const location = window.location;
