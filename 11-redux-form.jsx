@@ -10,7 +10,7 @@ module.exports = React.createClass({
 		isLoading: PropTypes.bool.isRequired,
 		saveStatus: PropTypes.string.isRequired,
 		fields: PropTypes.object,
-		// onSubmit: PropTypes.func.isRequired,
+		onSubmit: PropTypes.func.isRequired,
 	},
 
 	getInitialState() {
@@ -26,15 +26,53 @@ module.exports = React.createClass({
 		this.setState({ fields: nextProps.fields });
 	},
 
-	onFormSubmit(e) {
+	onSubmit(e) {
 		e.preventDefault();
+		
+		const person = this.state.fields;
+
+		if(this.validate()) return;
+
+		this.props.onSubmit([...this.props.people, person]);
 	},
 
-	onInputChange({name, value, error}) {
+	onInputChange({name, value, err}) {
+		var fieldsObject = {};
+		const fields = this.state.fields;
+		const fieldErrors = this.state.fieldErrors;
 
+		fieldErrors[name] = err;
+		
+		if(name === 'name'){
+			fieldsObject = this.state.fields;
+			fieldsObject[name] = value;
+			this.setState({ fields: fieldsObject, name: value });
+			return;
+		}
+
+		if(name === 'email'){
+			fieldsObject = this.state.fields;
+			fieldsObject[name] = value;
+			this.setState({ fields: fieldsObject, email: value });
+			return;
+		}
+
+		fields[name] = value;
+
+		this.setState({fields, fieldErrors})
 	},
 
 	validate() {
+		const fields = this.state.fields;
+		const fieldErrors = this.state.fieldErrors;
+		const errMessages = Object.keys(fieldErrors).filter( (k) => fieldErrors[k]);
+		
+		if (!fields.name) return true;
+    if (!fields.email) return true;
+    if (!fields.course) return true;
+    if (!fields.department) return true;
+    if (errMessages.length) return true;
+
 		return false;
 	},
 
@@ -93,7 +131,7 @@ module.exports = React.createClass({
 			<div>
 				<h3>People</h3>
 				<ul>
-					{this.props.people.map( ({name,email,department,cours},i) => 
+					{this.props.people.map( ({name,email,department,course},i) => 
 						<li key={i}>{ [name,email,department,course].join(' - ') }</li> 
 					)}
 				</ul>
