@@ -3,7 +3,7 @@ import thunkMiddleware from 'redux-thunk';
 import {connect, Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 
-import { savePeople } from './11-redux-actions.js';
+import { fetchPeople, savePeople } from './11-redux-actions.js';
 import { reducer } from './11-redux-reducer.js';
 const Form = require('./11-redux-form.jsx');
 
@@ -16,6 +16,10 @@ var file1 = file.split('.').slice(0)[0];
 
 module.exports = React.createClass({
 	displayName: file1,
+
+	componentWillMount() {
+		store.dispatch(fetchPeople())
+	},
 
 	render() {
 		return (
