@@ -42,29 +42,65 @@ module.exports = React.createClass({
 
 		this.setState({_saveStatus: 'SAVING'});
 
-
+		apiClient.savePeople(people)
+			.then( () => {
+				this.setState({
+					people: people,
+					fields: {},
+					_saveStatus: 'SUCCESS',
+					name: '',
+					email: '',
+				});
+			}).catch( (err) => {
+				console.error(err);
+				this.setState({ _saveStatus: 'ERROR'});
+			});
 	},
 
 	onInputChange({name, value, err}) {
+		// console.log('name', name, 'value', value, 'err', err);
+		var fieldsObject = {};
+		const fields = this.state.fields;
+		const fieldErrors = this.state.fieldErrors;
+
 		if(name === 'name'){
-			this.setState({name: value});
+			fieldsObject = this.state.fields;
+			fieldsObject[name] = value;
+			fieldErrors[name] = err;
+			// console.log('name',fieldErrors);
+			this.setState({ fields: fieldsObject, name: value, _saveStatus: 'READY' });
+
 			return;
 		}
 
 		if(name === 'email'){
-			this.setState({email: value});
+			fieldsObject = this.state.fields;
+			fieldsObject[name] = value;
+			fieldErrors[name] = err;
+			// console.log('email',fieldErrors);
+			this.setState({ fields: fieldsObject, email: value, _saveStatus: 'READY' });
 			return;
 		}
 
-		const fields = this.state.fields;
-		const fieldErrors = this.state.fieldErrors;
 
 		fields[name] = value;
+		fieldErrors[name] = err;
+		console.log(fieldErrors);
 
 		this.setState({fields, fieldErrors, _saveStatus: 'READY'});
 	},
 
 	validate() {
+		const fields = this.state.fields;
+		const fieldErrors = this.state.fieldErrors;
+		const errMessages = Object.keys(fieldErrors).filter( (k) => fieldErrors[k]);
+
+		if(!fields.name) return true;
+		if(!fields.email) return true;
+		if(!fields.course) return true;
+		if(!fields.department) return true;
+		if(errMessages.length) return true;
+
 		return false;
 	},
 
@@ -81,6 +117,7 @@ module.exports = React.createClass({
 					name='name'
 					value={this.state.name}
 					onChange={this.onInputChange}
+					validate={(val) => (val ? false : 'Name Required')}
 				/>
 				<br />
 				<Field
@@ -88,6 +125,7 @@ module.exports = React.createClass({
 					name='email'
 					value={this.state.email}
 					onChange={this.onInputChange}
+					validate={(val) => (isEmail(val) ? false : 'Invalid Email')}
 				/>
 				<br />
 				<CourseSelect
@@ -99,7 +137,7 @@ module.exports = React.createClass({
 				{{
 					SAVING: <input value='Saving...' type='submit' disabled />,
 					SUCCESS: <input value='Saved...' type='submit' disabled />,
-					ERROR: <input value='Save Failed - Retry?' type='submit' disabled />,
+					ERROR: <input value='Save Failed - Retry?' type='submit' disabled={this.validate()} />,
 					READY: <input value='Submit' type='submit' disabled={this.validate()} />,
 				}[this.state._saveStatus]}
 
@@ -118,6 +156,7 @@ module.exports = React.createClass({
 });
 
 apiClient = {
+
 	loadPeople: function() {
 		return {
 			then: function(cb) {
@@ -128,7 +167,20 @@ apiClient = {
 		}
 	},
 
-	savePeople: function() {
+	count: 1,
 
-	}
+	savePeople: function(people) {
+		const success = !!(this.count++ % 2);
+		//first save with work 1 % 2 = 1 TRUE
+		//second save count: 2   2 % 2 = 0 FALSE
+
+		return new Promise( (resolve, reject ) => {
+			setTimeout( () => {
+				if (!success) return reject({ success });
+
+				localStorage.people = JSON.stringify(people);
+				return resolve( { success });
+			}, 1000);
+		});
+	},
 }

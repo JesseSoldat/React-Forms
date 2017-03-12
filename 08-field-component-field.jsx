@@ -43,17 +43,29 @@ module.exports = React.createClass({
 	onBlur(e){
 		const name = e.target.name;
 		const value = e.target.value;
-		const error = this.props.validate ? this.props.validate(value) : false;
 
 		if(name === 'name'){
+			const error = this.props.validate ? this.props.validate(value) : false;
+			let err = error; //problem with error being passed as undefined err is my fix
+			// console.log('name err',err);
+			this.props.onChange({ name, value, err });
 			this.setState({ error });
+
+			return;
 			//display name input error
 		}
 
 		if(name === 'email'){
+			const error = this.props.validate ? this.props.validate(value) : false;
+			let err = error;
+			// console.log('email err',err);
+			this.props.onChange({ name, value, err });
 			this.setState({ error });
+
+			return;
 			//display email input error
 		}
+
 	},
 
 	render() {
